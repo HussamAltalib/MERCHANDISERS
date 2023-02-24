@@ -5,9 +5,15 @@ from .models import Question, Answer
 # Create your views here.
  
 def index(request : HttpRequest):
-   ''' Display the homepage with all answers '''
+   ''' Display the homepage with all answers and the user can search for a specific question '''
 
    questions = Question.objects.all()
+
+   if 'search' in request.GET:
+      questions = Question.objects.filter(title__contains=request.GET["search"])
+   else:
+      questions = Question.objects.all() 
+      
    return  render(request, "main/index.html",{"questions": questions})
 
 def question_page(request : HttpRequest):
@@ -23,6 +29,7 @@ def question_page(request : HttpRequest):
 
 def answers_details_page(request : HttpRequest, question_id):
    ''' Display question details and all it's answers '''
+
    question = Question.objects.get(id=question_id)
 
    if request.method == "POST":
@@ -36,14 +43,4 @@ def answers_details_page(request : HttpRequest, question_id):
 
    return render(request, "main/answers_details.html", {"question" : question, "answers" : answers, "answers_number" : answers_number})
 
-def search(request : HttpRequest): 
 
-    # display = int(request.GET.get("display", 10)) how many in every page
-
-    if 'search' in request.GET:
-        questions = Question.objects.filter(title__contains=request.GET["search"])
-    else:
-        questions = Question.objects.all()
-
-    context = {"questions" : questions}
-    return render(request, "main:index_page", context)
