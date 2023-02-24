@@ -1,0 +1,66 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}   New Account  {% endblock %}
+
+
+{% block content %}
+
+
+
+<div class="container_Register" id="container">
+	<div class="form-container sign-up-container">
+		<form method="post" action="" class="form_Register">
+            {% csrf_token %}
+			<h1 class="h1_Register">Create Account</h1>
+			<!-- <div class="mt-3">
+                <label>Choose File:</label>
+                <input type="file" name="profile_image" class="form-control"/>
+            </div> -->
+			<input name="username" type="text" class="input_Register" placeholder="Name" />
+			<input name="email" type="email" class="input_Register" placeholder="Email" />
+			<input name="password" type="password" class="input_Register" placeholder="Password" />
+			<button class="button_Register" type='submit' name='submit' value='sign_up'>Sign Up</button>
+		</form>
+	</div>
+	<div class="form-container sign-in-container">
+		<form method="post" action="" class="form_Register">
+            {% csrf_token %}
+			<h1 class="h1_Register">Sign in</h1>
+			<div class="social-container">
+				<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+				<a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+				<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+			</div>
+			<span>or use your account</span>
+			<input name="username" type="username" class="input_Register" placeholder="username" />
+			<input name="password" type="password" class="input_Register" placeholder="Password" />
+			<a href="#">Forgot your password?</a>
+			<button class="button_Register" type='submit' name='submit' value='sign_in'>Sign In</button>
+		</form>
+	</div>
+	<div class="overlay-container">
+		<div class="overlay">
+			<div class="overlay-panel overlay-left">
+				<h1 class="h1_Register">Welcome Back!</h1>
+				<p class="p_Register">To keep connected with us please login with your personal info</p>
+				<button class="ghost button_Register" id="signIn">Sign In</button>
+			</div>
+			<div class="overlay-panel overlay-right">
+				<h1 class="h1_Register">Hello, Friend!</h1>
+				<p class="p_Register">Enter your personal details and start journey with us</p>
+				<button class="ghost button_Register" id="signUp">Sign Up</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+	
+<script src="{% static 'js/scripts.js' %}"></script>
+
+    
+        
+      
+
+{% endblock %}
