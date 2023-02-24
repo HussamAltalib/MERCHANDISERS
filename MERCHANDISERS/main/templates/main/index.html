@@ -1,6 +1,9 @@
 {% extends 'main/base.html' %}
 {% load static %}
 
+{% block title %}     {% endblock %}
+
+
 
 {% block content %}
 
@@ -19,7 +22,7 @@
   
     <div class="row g-5">
       <div class="col-md-8">
-        <div> <a href="{% url 'main:question_page' %}"><button style="margin-left: 80%;" type="button" class="btn btn-primary">Ask Question</button></a>
+        <div> <a href="{% url 'main:question_page'%}"><button style="margin-left: 80%;" type="button" class="btn btn-primary">Ask Question</button></a>
           <h3 class="pb-4 mb-4 fst-italic border-bottom " style="margin-top: -35px;">
             All Questions
           </h3></div>
@@ -30,13 +33,17 @@
         <article class="blog-post">
                
         <div class="container text-center">
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+          <!-- Search Start -->
+            <form action="" method="get" >
+                <input type="search" name="search" class="form-control" placeholder="Search..." aria-label="Search">
+                <button class="btn btn-dark border-0 w-25">Search</button>
+
             </form>
+          <!-- Search End -->
             {% for question in questions %}
             <div class="row">
                 <div class="post-preview">
-                    <a href="post.html">
+                    <a href="{% url 'main:answers_details_page'  question.id  %}">
                         <h2 class="post-title">{{ question.title}}</h2>
                     </a>
                     <p class="post-meta">
