@@ -13,15 +13,15 @@
             <div class="mb-3">
                 <label for="Title" class="form-label">Title</label>
                 <label style="display: block; margin-top: -5px; font-size: small;" for="Title" class="form-label">Be specific and imagine you’re asking a question to another person</label>
-                <input name="title" type="text" class="form-control" placeholder="EX: How to do company commercial registration?" required>
+                <input name="title" type="text" class="form-control" value="{{ question.title }}" placeholder="EX: How to do company commercial registration?" required>
             </div>
             <div class="mb-3">
                 <label for="Details" class="form-label">Details</label>
                 <label style="display: block; margin-top: -5px; font-size: small;" for="Details" class="form-label">Include all the information someone would need to answer your question</label>
-                <textarea name="details" class="form-control"  rows="3"></textarea>
+                <textarea name="details" class="form-control"  rows="3">{{ question.details }}</textarea>
             </div>
         </div>
-        <button style="margin-top: 50px;" class="btn btn-primary ms-5" type="submit">Post Your Question</button>
+        <button style="margin-top: 50px;" class="btn btn-primary ms-5" type="submit">Edit</button>
 
     </form>
 </div>

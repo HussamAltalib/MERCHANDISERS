@@ -93,6 +93,7 @@ def profile(request : HttpRequest, user_id):
    return render(request, "main/profile.html",{"user" : user, "questions_number" : questions_number, "answers_number" : answers_number})
 
 def questions(request : HttpRequest, user_id):
+   ''' Dispaly other users questions '''
 
    user = User.objects.get(id=user_id)
    questions = Question.objects.filter(user = user)
@@ -102,7 +103,7 @@ def questions(request : HttpRequest, user_id):
    return render(request, "main/questions.html",{"questions" : questions, "questions_number" : questions_number})
 
 def answers(request : HttpRequest, user_id):
-
+   ''' Display other users answers '''
    user = User.objects.get(id=user_id)
    answers = Answer.objects.filter(user = user)
    answers_number = Answer.objects.filter(user = user).count()
@@ -111,10 +112,54 @@ def answers(request : HttpRequest, user_id):
 
 
 
-# def delete_question(request : HttpRequest, question_id):
-#    #  if not request.user.is_staff:
-#    #      return redirect("main:index_page")
+def delete_question(request : HttpRequest, question_id):
+    ''' Delete question '''
 
-#     question = Question.objects.get(id=question_id)
-#     question.delete()
-#     return redirect("main:add_clinics_page")
+   #  if not request.user.is_staff:
+   #      return redirect("main:index_page")
+
+    question = Question.objects.get(id=question_id)
+    question.delete()
+    return redirect("main:my_questions_page")
+
+
+def edit_question(request : HttpRequest, question_id):
+    ''' User can can edit his questions '''
+   #  if not request.user.is_staff:
+   #      return redirect("main:index_page")
+
+    question = Question.objects.get(id=question_id)
+
+    if request.method == "POST":
+        question.title = request.POST["title"]
+        question.details = request.POST["details"]
+        question.save()
+        return redirect("main:my_questions_page")
+
+    return render(request, "main/edit_question.html", {"question" : question})
+   
+
+def delete_answer(request : HttpRequest, answer_id):
+    ''' Delete question '''
+
+   #  if not request.user.is_staff:
+   #      return redirect("main:index_page")
+
+    answer = Answer.objects.get(id=answer_id)
+    answer.delete()
+    return redirect("main:my_answers_page")
+
+
+def edit_answer(request : HttpRequest, answer_id):
+    ''' User can can edit his questions '''
+   #  if not request.user.is_staff:
+   #      return redirect("main:index_page")
+
+    answer = Answer.objects.get(id=answer_id)
+
+    if request.method == "POST":
+        answer.answer = request.POST["answer"]
+        answer.save()
+        return redirect("main:my_answers_page")
+
+    return render(request, "main/edit_answer.html", {"answer" : answer})

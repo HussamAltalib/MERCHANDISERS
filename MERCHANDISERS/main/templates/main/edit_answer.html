@@ -1,0 +1,24 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}   Ask Question  {% endblock %}
+
+
+{% block content %}
+
+<div class="container_Register" id="container">
+    <form method="post" action="" > 
+        {% csrf_token %}
+        <div class="container" style="padding: 20px;">
+            
+            <div class="mb-3">
+                <label for="Answer" class="form-label">Your Answer</label>
+                <textarea name="answer" style="height: 200px;" class="form-control"  rows="3" required> {{ answer.answer }}</textarea>
+            </div>
+        </div>
+        <button style="margin-top: 50px;" class="btn btn-primary ms-5" type="submit">Edit Your Answer</button>
+
+    </form>
+</div>
+
+{% endblock %}

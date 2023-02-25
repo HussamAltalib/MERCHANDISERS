@@ -26,6 +26,10 @@
                             Answerd on {{ answer.answered_at }}
                         </p>
                     </div>
+                    <div>
+                        <a  href="{% url 'main:edit_answer_page' answer.id %}" style="display: inline;"><button style="width: 100px;" type="button" class="btn btn-outline-primary">Edit</button></a>
+                        <a  href="{% url 'main:delete_answer' answer.id %}"style="display: inline;"><button style="width: 100px;" type="button" class="btn btn-outline-danger ">Delete</button></a>
+                    </div>
                     <hr class="my-4" />
                 </div>
                 {% endfor %}

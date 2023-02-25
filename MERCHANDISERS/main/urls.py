@@ -16,6 +16,14 @@ urlpatterns = [
        path("questions/<user_id>/", views.questions, name="questions_page"),
        path("answers/<user_id>/", views.answers, name="answers_page"),
 
+       path("delete/question/<question_id>/", views.delete_question, name="delete_question"),
+       path("edit/question/<question_id>/", views.edit_question, name="edit_question_page"),
+
+       path("delete/answer/<answer_id>/", views.delete_answer, name="delete_answer"),
+       path("edit/answer/<answer_id>/", views.edit_answer, name="edit_answer_page"),
+
+
+
 
 
 
