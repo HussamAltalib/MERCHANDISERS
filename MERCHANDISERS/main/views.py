@@ -100,7 +100,7 @@ def questions(request : HttpRequest, user_id):
    questions_number = Question.objects.filter(user = user).count()
 
 
-   return render(request, "main/questions.html",{"questions" : questions, "questions_number" : questions_number})
+   return render(request, "main/questions.html",{"questions" : questions, "questions_number" : questions_number, "user" : user})
 
 def answers(request : HttpRequest, user_id):
    ''' Display other users answers '''
@@ -108,7 +108,7 @@ def answers(request : HttpRequest, user_id):
    answers = Answer.objects.filter(user = user)
    answers_number = Answer.objects.filter(user = user).count()
 
-   return render(request, "main/answers.html",{"answers" : answers, "answers_number" : answers_number})
+   return render(request, "main/answers.html",{"answers" : answers, "answers_number" : answers_number, "user" : user})
 
 
 

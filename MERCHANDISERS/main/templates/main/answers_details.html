@@ -28,7 +28,9 @@
                         <h2 class="post-title">{{ question.title}}</h2>
                         <p style="font-size: small;" class="post-meta">
                             Asked by
-                            <a href="#!"> <strong>{{ question.user.username}}</strong> </a>
+                            <a href="{% url 'main:profile_page'  question.user.id  %}"> 
+                                <strong>{{ question.user.username}}</strong> 
+                            </a>
                             on {{ question.asked_at}}
                         </p>
                         <hr style="width: 500px;" class="my-4" />
