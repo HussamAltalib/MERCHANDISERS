@@ -52,7 +52,9 @@
                         <p>{{ answer.answer }}</p>
                         <p style="font-size: small;" class="post-meta">
                             Answered by
-                            <a href="#!"><strong>{{ answer.user.username}}</strong></a>
+                            <a href="{% url 'main:profile_page'  answer.user.id  %}">
+                                <strong>{{ answer.user.username}}</strong>
+                            </a>
                             on {{ answer.answered_at}}
                         </p>
                     </div>

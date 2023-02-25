@@ -1,0 +1,43 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %} My Questions  {% endblock %}
+
+
+{% block content %}
+<main class="container">
+    <div class="continer">
+        <div class="col-md-12">
+            <div>
+                <h3 class="pb-4 mb-4 fst-italic border-bottom " >
+                    My Questions
+                </h3>
+                <h5 class="mb-5">Total: {{ questions_number }} Question</h5>
+
+            </div>
+            <div class="container">
+                <!-- Search Start -->
+                <form action="" method="get" >
+                    <input style="width: 500px;" type="search" name="search" class="form-control" placeholder="Search..." >
+                </form>
+                <!-- Search End -->
+                {% for question in questions %}
+                <div class="row">
+                    <div class="post-preview">
+                        <a href="{% url 'main:answers_details_page'  question.id  %}">
+                            <h2 class="post-title">{{ question.title}}</h2>
+                        </a>
+                        <p class="post-meta" style="font-size: small;">
+                            Asked on {{ question.asked_at }}
+                        </p>
+                    </div>
+                    <hr class="my-4" />
+                </div>
+                {% endfor %}
+            </div> 
+        </div>
+    </div>
+</main>
+
+
+{% endblock %}

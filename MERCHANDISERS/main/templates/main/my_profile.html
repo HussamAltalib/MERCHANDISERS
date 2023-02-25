@@ -23,13 +23,13 @@
                 <p style="margin-right: 26%;">Email: {{user.email}} </p>
                 <ul class="list-inline mb-0"> 
                     <li class="list-inline-item"> 
-                        <a href="{% url 'main:questions_page' user.id %}">
+                        <a href="{% url 'main:my_questions_page' %}">
                             <h5 class="font-weight-bold mb-0 d-block">{{ questions_number }}</h5>
                             <small class="text-muted"> <i class="fas fa-user mr-1"></i>Questions</small> 
                         </a>
                     </li> 
                     <li class="list-inline-item"> 
-                        <a href="{% url 'main:answers_page' user.id %}">
+                        <a href="{% url 'main:my_answers_page' %}">
                             <h5 class="font-weight-bold mb-0 d-block">{{answers_number}}</h5>
                             <small class="text-muted"> <i class="fas fa-user mr-1"></i>Answers</small> 
                         </a>

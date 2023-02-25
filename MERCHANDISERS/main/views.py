@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse
 from .models import Question, Answer
+from django.contrib.auth.models import User
+
 
 # Create your views here.
  
@@ -10,13 +12,14 @@ def index(request : HttpRequest):
    questions = Question.objects.all()
 
    if 'search' in request.GET:
-      questions = Question.objects.filter(title__contains=request.GET["search"])
-   
-      
+      questions = Question.objects.filter(title__contains=request.GET["search"]) 
+
    return  render(request, "main/index.html",{"questions": questions})
 
+
+
 def ask_question_page(request : HttpRequest):
-   ''' Provide a from for user to Ask his question '''
+   ''' Provide a form for user to Ask his question '''
 
    if request.method == "POST":
       #to add a new entry
@@ -25,6 +28,8 @@ def ask_question_page(request : HttpRequest):
       return redirect("main:index_page")
 
    return render(request, "main/ask_question.html")
+
+
 
 def answers_details_page(request : HttpRequest, question_id):
    ''' Display question details and all it's answers '''
@@ -42,26 +47,68 @@ def answers_details_page(request : HttpRequest, question_id):
 
    return render(request, "main/answers_details.html", {"question" : question, "answers" : answers, "answers_number" : answers_number})
 
-def profile(request : HttpRequest):
-   question_number = Question.objects.filter(user = request.user).count()
+
+
+def my_profile(request : HttpRequest):
+   ''' Diaplsy the user's profile '''
+
+   questions_number = Question.objects.filter(user = request.user).count()
    answers_number = Answer.objects.filter(user = request.user).count()
 
-   return render(request, "main/profile.html",{"question_number" : question_number,"answers_number" : answers_number})
+   return render(request, "main/my_profile.html",{"questions_number" : questions_number,"answers_number" : answers_number})
 
-def questions(request : HttpRequest):
+
+
+def my_questions(request : HttpRequest):
+   ''' Display all user's questions '''
+
    questions = Question.objects.filter(user = request.user)
    questions_number = Question.objects.filter(user = request.user).count()
+
    if 'search' in request.GET:
       questions = Question.objects.filter(title__contains=request.GET["search"])
    
 
-   return render(request, "main/questions.html",{"questions" : questions, "questions_number" : questions_number})
+   return render(request, "main/my_questions.html",{"questions" : questions, "questions_number" : questions_number})
 
-def answers(request : HttpRequest):
+
+
+def my_answers(request : HttpRequest):
+   ''' Display all user's questions '''
+
    answers = Answer.objects.filter(user = request.user)
    answers_number = Answer.objects.filter(user = request.user).count()
-   
+
+   return render(request, "main/my_answers.html",{"answers" : answers, "answers_number" : answers_number})
+
+
+
+def profile(request : HttpRequest, user_id):
+   ''' Display other user profile '''
+
+   user = User.objects.get(id=user_id)
+   questions_number = Question.objects.filter(user = user).count()
+   answers_number = Answer.objects.filter(user = user).count()
+
+   return render(request, "main/profile.html",{"user" : user, "questions_number" : questions_number, "answers_number" : answers_number})
+
+def questions(request : HttpRequest, user_id):
+
+   user = User.objects.get(id=user_id)
+   questions = Question.objects.filter(user = user)
+   questions_number = Question.objects.filter(user = user).count()
+
+
+   return render(request, "main/questions.html",{"questions" : questions, "questions_number" : questions_number})
+
+def answers(request : HttpRequest, user_id):
+
+   user = User.objects.get(id=user_id)
+   answers = Answer.objects.filter(user = user)
+   answers_number = Answer.objects.filter(user = user).count()
+
    return render(request, "main/answers.html",{"answers" : answers, "answers_number" : answers_number})
+
 
 
 # def delete_question(request : HttpRequest, question_id):
