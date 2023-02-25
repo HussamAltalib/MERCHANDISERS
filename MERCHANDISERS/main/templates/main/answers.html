@@ -1,0 +1,40 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}   My Answers Page  {% endblock %}
+
+
+{% block content %}
+<main class="container">
+    <div class="continer">
+        <div class="col-md-12">
+            <div>
+                <h3 class="pb-4 mb-4 fst-italic border-bottom " >
+                    My Answers
+                </h3>
+                <h5 class="mb-5">Total: {{ answers_number }} Answer</h5>
+            </div>
+            <div class="container">
+                {% for answer in answers %}
+                <div class="row">
+                    <div class="post-preview">
+                        <a href="{% url 'main:answers_details_page'  answer.id  %}">
+                            <h2 class="post-title">{{ answer.question.title}}</h2>
+                        </a>
+                        <p> {{ answer.answer }} </p>
+                        <p class="post-meta" style="font-size: small;">
+                            Answerd on {{ answer.answered_at }}
+                        </p>
+                    </div>
+                    <hr class="my-4" />
+                </div>
+                {% endfor %}
+                
+
+            </div> 
+        </div>
+    </div>
+</main>
+
+
+{% endblock %}

@@ -11,12 +11,11 @@ def index(request : HttpRequest):
 
    if 'search' in request.GET:
       questions = Question.objects.filter(title__contains=request.GET["search"])
-   else:
-      questions = Question.objects.all() 
+   
       
    return  render(request, "main/index.html",{"questions": questions})
 
-def question_page(request : HttpRequest):
+def ask_question_page(request : HttpRequest):
    ''' Provide a from for user to Ask his question '''
 
    if request.method == "POST":
@@ -25,7 +24,7 @@ def question_page(request : HttpRequest):
       new_question.save()
       return redirect("main:index_page")
 
-   return render(request, "main/question.html")
+   return render(request, "main/ask_question.html")
 
 def answers_details_page(request : HttpRequest, question_id):
    ''' Display question details and all it's answers '''
@@ -43,4 +42,32 @@ def answers_details_page(request : HttpRequest, question_id):
 
    return render(request, "main/answers_details.html", {"question" : question, "answers" : answers, "answers_number" : answers_number})
 
+def profile(request : HttpRequest):
+   question_number = Question.objects.filter(user = request.user).count()
+   answers_number = Answer.objects.filter(user = request.user).count()
 
+   return render(request, "main/profile.html",{"question_number" : question_number,"answers_number" : answers_number})
+
+def questions(request : HttpRequest):
+   questions = Question.objects.filter(user = request.user)
+   questions_number = Question.objects.filter(user = request.user).count()
+   if 'search' in request.GET:
+      questions = Question.objects.filter(title__contains=request.GET["search"])
+   
+
+   return render(request, "main/questions.html",{"questions" : questions, "questions_number" : questions_number})
+
+def answers(request : HttpRequest):
+   answers = Answer.objects.filter(user = request.user)
+   answers_number = Answer.objects.filter(user = request.user).count()
+   
+   return render(request, "main/answers.html",{"answers" : answers, "answers_number" : answers_number})
+
+
+# def delete_question(request : HttpRequest, question_id):
+#    #  if not request.user.is_staff:
+#    #      return redirect("main:index_page")
+
+#     question = Question.objects.get(id=question_id)
+#     question.delete()
+#     return redirect("main:add_clinics_page")
