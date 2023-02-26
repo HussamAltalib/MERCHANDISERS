@@ -23,6 +23,7 @@ urlpatterns = [
        path("edit/answer/<answer_id>/", views.edit_answer, name="edit_answer_page"),
 
        path("upgrade_question/<question_id>/", views.upgrade_question, name="upgrade_question"),
+       path("downgrade_question/<question_id>/", views.downgrade_question, name="downgrade_question"),
 
 
 

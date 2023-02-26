@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse
-from .models import Question, Answer
+from .models import Question, Answer, QuestionScore, AnswerScore
 from django.contrib.auth.models import User
 
 
@@ -35,7 +35,7 @@ def answers_details_page(request : HttpRequest, question_id):
    ''' Display question details and all it's answers '''
 
    question = Question.objects.get(id=question_id)
-
+   score = QuestionScore.objects.filter(question=question, is_rated_up=True).count() - QuestionScore.objects.filter(question=question, is_rated_up=False).count()
    if request.method == "POST":
       #to add a new entry
       new_answer = Answer(user = request.user, question=question, answer = request.POST["answer"])
@@ -45,7 +45,7 @@ def answers_details_page(request : HttpRequest, question_id):
    answers = Answer.objects.filter(question = question)
    answers_number = Answer.objects.filter(question = question).count()
 
-   return render(request, "main/answers_details.html", {"question" : question, "answers" : answers, "answers_number" : answers_number})
+   return render(request, "main/answers_details.html", {"question" : question, "answers" : answers, "answers_number" : answers_number, "score" : score})
 
 
 
@@ -173,11 +173,41 @@ def edit_answer(request : HttpRequest, answer_id):
 
 
 
-def upgrade_question(request : HttpRequest, question_id):
+def upgrade_question(request : HttpRequest, question_id: int):
    ''' give the question 1 point up '''
 
    question = Question.objects.get(id=question_id)
-   question.question_score += 1
-   question.save()
+   question_score  = QuestionScore.objects.filter(user=request.user, question=question).first()
 
-   return redirect("main:answers_details_page",question_id)
+   if question_score:
+      question_score.is_rated_up = True
+      question_score.is_rated_down = False
+      question_score.save()
+   else:
+      new_score = QuestionScore(user = request.user, question=question)
+      new_score.is_rated_up = True
+      new_score.save()
+
+   return redirect("main:answers_details_page", question_id = question_id)
+
+
+
+def downgrade_question(request : HttpRequest, question_id: int):
+   ''' take from the question 1 point  '''
+
+   question = Question.objects.get(id=question_id)
+   question_score  = QuestionScore.objects.filter(user=request.user, question=question).first()
+
+   if question_score:
+      question_score.is_rated_up = False
+      question_score.is_rated_down = True
+      question_score.save()
+   else:
+      new_score = QuestionScore(user = request.user, question=question)
+      new_score.is_rated_down = False
+      new_score.save()
+
+   return redirect("main:answers_details_page", question_id = question_id)
+
+
+
