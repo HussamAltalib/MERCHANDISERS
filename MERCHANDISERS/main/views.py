@@ -35,7 +35,9 @@ def answers_details_page(request : HttpRequest, question_id):
    ''' Display question details and all it's answers '''
 
    question = Question.objects.get(id=question_id)
-   score = QuestionScore.objects.filter(question=question, is_rated_up=True).count() - QuestionScore.objects.filter(question=question, is_rated_up=False).count()
+   question_score = QuestionScore.objects.filter(question=question, is_rated_up=True).count() - QuestionScore.objects.filter(question=question, is_rated_up=False).count()
+  
+
    if request.method == "POST":
       #to add a new entry
       new_answer = Answer(user = request.user, question=question, answer = request.POST["answer"])
@@ -45,7 +47,7 @@ def answers_details_page(request : HttpRequest, question_id):
    answers = Answer.objects.filter(question = question)
    answers_number = Answer.objects.filter(question = question).count()
 
-   return render(request, "main/answers_details.html", {"question" : question, "answers" : answers, "answers_number" : answers_number, "score" : score})
+   return render(request, "main/answers_details.html", {"question" : question, "answers" : answers, "answers_number" : answers_number, "question_score" : question_score})
 
 
 
@@ -157,7 +159,7 @@ def delete_answer(request : HttpRequest, answer_id):
 
 
 
-def edit_answer(request : HttpRequest, answer_id):
+def edit_answer(request : HttpRequest, answer_id : int):
     ''' User can can edit his questions '''
    #  if not request.user.is_staff:
    #      return redirect("main:index_page")
@@ -211,3 +213,31 @@ def downgrade_question(request : HttpRequest, question_id: int):
 
 
 
+def cancel_my_vote(request : HttpRequest, question_id: int):
+
+   question = Question.objects.get(id=question_id)
+   my_vote  = QuestionScore.objects.filter(user=request.user, question=question).first()
+   if my_vote:
+      my_vote.delete()
+   # my_vote = QuestionScore.objects.get( id = question_id)
+
+   return redirect("main:answers_details_page", question_id = question_id)
+
+
+
+def upgrade_answer(request : HttpRequest, answer_id: int):
+   ''' give the question 1 point up '''
+
+   answer = Answer.objects.get(id=answer_id)
+   answer_score  = AnswerScore.objects.filter(user=request.user, answer=answer).first()
+
+   if answer_score:
+      answer_score.is_rated_up = True
+      answer_score.is_rated_down = False
+      answer_score.save()
+   else:
+      new_score = AnswerScore(user = request.user, answer=answer)
+      new_score.is_rated_up = True
+      new_score.save()
+
+   return redirect("main:answers_details_page")

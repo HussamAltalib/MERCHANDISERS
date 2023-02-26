@@ -26,20 +26,25 @@
                 <div class="row">
                         <div class="col-1  pt-4">
                             <!------------- Start Upgrade Question ---------------->
-                            <a href="{% url 'main:upgrade_question' question.id %}">
+                            <a href="{% url 'main:upgrade_question' question.id %}" data-toggle="tooltip" title="This question is useful">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-caret-up" viewBox="0 0 16 16">
                                     <path d="M3.204 11h9.592L8 5.519 3.204 11zm-.753-.659 4.796-5.48a1 1 0 0 1 1.506 0l4.796 5.48c.566.647.106 1.659-.753 1.659H3.204a1 1 0 0 1-.753-1.659z"/>
                                 </svg>
                             </a>
                             <!------------- End Upgrade Question ---------------->
-                            <h5 style="margin-left: 15px;">{{ score }}</h5>
+                            <h5 style="margin-left: 15px;">{{ question_score }}</h5>
                             <!------------- Start Downgrade Question ------------->
-                            <a href="{% url 'main:downgrade_question' question.id %}">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-caret-down" viewBox="0 0 16 16">
+                            <a href="{% url 'main:downgrade_question' question.id %}" data-toggle="tooltip" title="This question is not useful">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-caret-down" viewBox="0 0 16 16" >
                                     <path d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z"/>
                                 </svg>
                             </a>
                             <!------------- End Downgrade Question ---------------->
+                            <a href="{% url 'main:cancel_my_vote' question.id %} " style="margin-left: 7px;" data-toggle="tooltip" title="cancel my vote">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                </svg>
+                            </a>
                         </div>
 
                         <div class="col-11">
@@ -78,7 +83,7 @@
                             </svg>
                         </a>
                         <!------------- End Upgrade Answer ---------------->
-                        <h5>Zero</h5>
+                        <h5>{{ answer_score }}</h5>
                         <!------------- Start Downgrade Answer ------------->
                         <a href="">
                             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-down" viewBox="0 0 16 16">

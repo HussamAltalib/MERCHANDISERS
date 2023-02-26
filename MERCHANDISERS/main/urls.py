@@ -22,9 +22,11 @@ urlpatterns = [
        path("delete/answer/<answer_id>/", views.delete_answer, name="delete_answer"),
        path("edit/answer/<answer_id>/", views.edit_answer, name="edit_answer_page"),
 
-       path("upgrade_question/<question_id>/", views.upgrade_question, name="upgrade_question"),
-       path("downgrade_question/<question_id>/", views.downgrade_question, name="downgrade_question"),
+       path("upgrade/question/<question_id>/", views.upgrade_question, name="upgrade_question"),
+       path("downgrade/question/<question_id>/", views.downgrade_question, name="downgrade_question"),
+       path("cancel/my/vote/<question_id>/", views.cancel_my_vote, name="cancel_my_vote"),
 
+       path("upgrade/answer/<answer_id>/", views.upgrade_answer, name="upgrade_answer"),
 
 
 ]

@@ -46,7 +46,6 @@ class AnswerScore(models.Model):
 
     is_rated_up = models.BooleanField(default=False)
     is_rated_down = models.BooleanField(default=False)
-    question_score = models.IntegerField(default=0)
 
 
 
