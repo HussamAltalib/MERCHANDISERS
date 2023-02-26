@@ -10,6 +10,8 @@ class Question(models.Model):
     title = models.CharField(max_length=1024)
     details = models.TextField()
     asked_at = models.DateTimeField(auto_now_add=True)
+    question_score = models.IntegerField(default=0)
+
 
     def __str__(self) -> str:
         return f"{self.title} "
@@ -20,6 +22,8 @@ class Answer(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     answer = models.TextField()
     answered_at = models.DateTimeField(auto_now_add=True)
+    answer_score = models.IntegerField(default=0)
+
 
 
     def __str__(self) -> str:

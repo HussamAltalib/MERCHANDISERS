@@ -22,20 +22,40 @@
                 
             <!-- ######### Question Start ############ -->
 
-            <div class="container  ms-3">    
+            <div class="container ms-3">    
                 <div class="row">
-                    <div class="post-preview mb-5">
-                        <h2 class="post-title">{{ question.title}}</h2>
-                        <p style="font-size: small;" class="post-meta">
-                            Asked by
-                            <a href="{% url 'main:profile_page'  question.user.id  %}"> 
-                                <strong>{{ question.user.username}}</strong> 
+                        <div class="col-1  pt-4">
+                            <!------------- Start Upgrade Question ---------------->
+                            <a href="{% url 'main:upgrade_question' question.id %}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-caret-up" viewBox="0 0 16 16">
+                                    <path d="M3.204 11h9.592L8 5.519 3.204 11zm-.753-.659 4.796-5.48a1 1 0 0 1 1.506 0l4.796 5.48c.566.647.106 1.659-.753 1.659H3.204a1 1 0 0 1-.753-1.659z"/>
+                                </svg>
                             </a>
-                            on {{ question.asked_at}}
-                        </p>
-                        <hr style="width: 500px;" class="my-4" />
-                        <h4> {{ question.details }}</h4>    
-                    </div>
+                            <!------------- End Upgrade Question ---------------->
+                            <h5 style="margin-left: 15px;">{{ question.question_score }}</h5>
+                            <!------------- Start Downgrade Question ------------->
+                            <a href="">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-caret-down" viewBox="0 0 16 16">
+                                    <path d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z"/>
+                                </svg>
+                            </a>
+                            <!------------- End Downgrade Question ---------------->
+                        </div>
+
+                        <div class="col-11">
+                            <div class="post-preview mb-5 ">
+                                <h2 class="post-title">{{ question.title}}</h2>
+                                <p style="font-size: small;" class="post-meta">
+                                    Asked by
+                                    <a href="{% url 'main:profile_page'  question.user.id  %}"> 
+                                        <strong>{{ question.user.username}}</strong> 
+                                    </a>
+                                    on {{ question.asked_at}}
+                                </p>
+                                <hr style="width: 500px;" class="my-4" />
+                                <h4> {{ question.details }}</h4>    
+                            </div>
+                        </div>    
                     <hr class="my-4" />     
                 </div>
             </div>
@@ -46,19 +66,39 @@
 
             <!-- ######### Answers Start ############ -->
 
-            <div class="container  ms-3 mt-5">
+            <div class="container ms-3 mt-5 ">
                 <h4 class="mb-5"> {{ answers_number }} Answers</h4>
                 {% for answer in answers %}
                 <div class="row">
-                    <div class="post-preview">
-                        <p>{{ answer.answer }}</p>
-                        <p style="font-size: small;" class="post-meta">
-                            Answered by
-                            <a href="{% url 'main:profile_page'  answer.user.id  %}">
-                                <strong>{{ answer.user.username}}</strong>
-                            </a>
-                            on {{ answer.answered_at}}
-                        </p>
+                    <div class="col-1  pt-1">
+                        <!------------- Start Upgrade Answer ---------------->
+                        <a href="">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-up" viewBox="0 0 16 16">
+                                <path d="M3.204 11h9.592L8 5.519 3.204 11zm-.753-.659 4.796-5.48a1 1 0 0 1 1.506 0l4.796 5.48c.566.647.106 1.659-.753 1.659H3.204a1 1 0 0 1-.753-1.659z"/>
+                            </svg>
+                        </a>
+                        <!------------- End Upgrade Answer ---------------->
+                        <h5>Zero</h5>
+                        <!------------- Start Downgrade Answer ------------->
+                        <a href="">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-down" viewBox="0 0 16 16">
+                                <path d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z"/>
+                            </svg>
+                        </a>
+                        <!------------- End Downgrade Answer ---------------->
+                    </div>
+                    
+                    <div class="col-11">
+                        <div class="post-preview">
+                            <p>{{ answer.answer }}</p>
+                            <p style="font-size: small;" class="post-meta">
+                                Answered by
+                                <a href="{% url 'main:profile_page'  answer.user.id  %}">
+                                    <strong>{{ answer.user.username}}</strong>
+                                </a>
+                                on {{ answer.answered_at}}
+                            </p>
+                        </div>
                     </div>
                     <hr class="my-4" />
                 </div>

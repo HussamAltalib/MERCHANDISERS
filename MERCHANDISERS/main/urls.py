@@ -22,11 +22,7 @@ urlpatterns = [
        path("delete/answer/<answer_id>/", views.delete_answer, name="delete_answer"),
        path("edit/answer/<answer_id>/", views.edit_answer, name="edit_answer_page"),
 
-
-
-
-
-
+       path("upgrade_question/<question_id>/", views.upgrade_question, name="upgrade_question"),
 
 
 

@@ -92,6 +92,8 @@ def profile(request : HttpRequest, user_id):
 
    return render(request, "main/profile.html",{"user" : user, "questions_number" : questions_number, "answers_number" : answers_number})
 
+
+
 def questions(request : HttpRequest, user_id):
    ''' Dispaly other users questions '''
 
@@ -101,6 +103,8 @@ def questions(request : HttpRequest, user_id):
 
 
    return render(request, "main/questions.html",{"questions" : questions, "questions_number" : questions_number, "user" : user})
+
+
 
 def answers(request : HttpRequest, user_id):
    ''' Display other users answers '''
@@ -113,7 +117,7 @@ def answers(request : HttpRequest, user_id):
 
 
 def delete_question(request : HttpRequest, question_id):
-    ''' Delete question '''
+    ''' User can delete his questions '''
 
    #  if not request.user.is_staff:
    #      return redirect("main:index_page")
@@ -121,6 +125,7 @@ def delete_question(request : HttpRequest, question_id):
     question = Question.objects.get(id=question_id)
     question.delete()
     return redirect("main:my_questions_page")
+
 
 
 def edit_question(request : HttpRequest, question_id):
@@ -139,8 +144,9 @@ def edit_question(request : HttpRequest, question_id):
     return render(request, "main/edit_question.html", {"question" : question})
    
 
+
 def delete_answer(request : HttpRequest, answer_id):
-    ''' Delete question '''
+    ''' User cane delete his answers '''
 
    #  if not request.user.is_staff:
    #      return redirect("main:index_page")
@@ -148,6 +154,7 @@ def delete_answer(request : HttpRequest, answer_id):
     answer = Answer.objects.get(id=answer_id)
     answer.delete()
     return redirect("main:my_answers_page")
+
 
 
 def edit_answer(request : HttpRequest, answer_id):
@@ -163,3 +170,14 @@ def edit_answer(request : HttpRequest, answer_id):
         return redirect("main:my_answers_page")
 
     return render(request, "main/edit_answer.html", {"answer" : answer})
+
+
+
+def upgrade_question(request : HttpRequest, question_id):
+   ''' give the question 1 point up '''
+
+   question = Question.objects.get(id=question_id)
+   question.question_score += 1
+   question.save()
+
+   return redirect("main:answers_details_page",question_id)
