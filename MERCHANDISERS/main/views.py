@@ -107,28 +107,11 @@ def others_profile(request : HttpRequest, user_id):
    questions_number = Question.objects.filter(user = user).count()
    answers_number = Answer.objects.filter(user = user).count()
 
-   questions = Question.objects.filter(user = user)
-   total_questios_score = 0
-   for question in questions:
-      question_score = QuestionScore.objects.filter(question=question, is_rated_up=True).count() - QuestionScore.objects.filter(question=question, is_rated_up=False).count()
-      total_questios_score += question_score
-
-   answers = Answer.objects.filter(user = user)
-   total_answers_score = 0
-   for answer in answers:
-      answer_score = AnswerScore.objects.filter(answer=answer, is_rated_up=True).count() - AnswerScore.objects.filter(answer=answer, is_rated_up=False).count()
-      total_answers_score += answer_score
-   
-   total_user_score = total_questios_score + total_answers_score
-
+   return render(request, "main/profile.html",{"user" : user, "questions_number" : questions_number, "answers_number" : answers_number})
 
    
 
-   return render(request, "main/others_profile.html",{"user" : user, "questions_number" : questions_number, "answers_number" : answers_number, "total_user_score" : total_user_score})
-
-
-
-def others_questions(request : HttpRequest, user_id):
+def questions(request : HttpRequest, user_id):
    ''' Dispaly other users questions '''
 
    user = User.objects.get(id=user_id)
