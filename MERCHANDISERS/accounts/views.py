@@ -29,8 +29,11 @@ def login_register_user(request : HttpRequest):
             new_user = User.objects.create_user(username=request.POST["username"], email=request.POST["email"], password=request.POST["password"])
             new_user.save()
         
-            # user_profile = Profile(user=new_user, profile_image = request.FILES["profile_image"])
-            # user_profile.save()
+    
+            user_profile = Profile(user = new_user)
+            if request.FILES.get('profile_image', False):
+                user_profile.profile_image = request.FILES["profile_image"]
+            user_profile.save()
 
             #if register successful redirect to sign in page
             return redirect("accounts:login_register_user")

@@ -57,7 +57,21 @@ def my_profile(request : HttpRequest):
    questions_number = Question.objects.filter(user = request.user).count()
    answers_number = Answer.objects.filter(user = request.user).count()
 
-   return render(request, "main/my_profile.html",{"questions_number" : questions_number,"answers_number" : answers_number})
+   questions = Question.objects.filter(user = request.user)
+   total_questios_score = 0
+   for question in questions:
+      question_score = QuestionScore.objects.filter(question=question, is_rated_up=True).count() - QuestionScore.objects.filter(question=question, is_rated_up=False).count()
+      total_questios_score += question_score
+
+   answers = Answer.objects.filter(user = request.user)
+   total_answers_score = 0
+   for answer in answers:
+      answer_score = AnswerScore.objects.filter(answer=answer, is_rated_up=True).count() - AnswerScore.objects.filter(answer=answer, is_rated_up=False).count()
+      total_answers_score += answer_score
+   
+   total_user_score = total_questios_score + total_answers_score
+
+   return render(request, "main/my_profile.html",{"questions_number" : questions_number,"answers_number" : answers_number, "total_user_score" : total_user_score})
 
 
 
@@ -66,6 +80,7 @@ def my_questions(request : HttpRequest):
 
    questions = Question.objects.filter(user = request.user)
    questions_number = Question.objects.filter(user = request.user).count()
+   
 
    if 'search' in request.GET:
       questions = Question.objects.filter(title__contains=request.GET["search"])
@@ -92,7 +107,24 @@ def others_profile(request : HttpRequest, user_id):
    questions_number = Question.objects.filter(user = user).count()
    answers_number = Answer.objects.filter(user = user).count()
 
-   return render(request, "main/others_profile.html",{"user" : user, "questions_number" : questions_number, "answers_number" : answers_number})
+   questions = Question.objects.filter(user = user)
+   total_questios_score = 0
+   for question in questions:
+      question_score = QuestionScore.objects.filter(question=question, is_rated_up=True).count() - QuestionScore.objects.filter(question=question, is_rated_up=False).count()
+      total_questios_score += question_score
+
+   answers = Answer.objects.filter(user = user)
+   total_answers_score = 0
+   for answer in answers:
+      answer_score = AnswerScore.objects.filter(answer=answer, is_rated_up=True).count() - AnswerScore.objects.filter(answer=answer, is_rated_up=False).count()
+      total_answers_score += answer_score
+   
+   total_user_score = total_questios_score + total_answers_score
+
+
+   
+
+   return render(request, "main/others_profile.html",{"user" : user, "questions_number" : questions_number, "answers_number" : answers_number, "total_user_score" : total_user_score})
 
 
 
