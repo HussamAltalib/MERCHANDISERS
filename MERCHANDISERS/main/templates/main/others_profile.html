@@ -18,18 +18,17 @@
                     </div> 
                 </div> 
             </div> 
-            <a href="#" class="btn btn-outline-dark btn-sm btn-block" style="margin: 60px 0px 0px 25px; width: 130px;">Edit profile</a>
-            <div class="bg-light p-4 d-flex justify-content-end text-center"> 
-                <p style="margin-right: 26%;">Email: {{user.email}} </p>
+            <div class="bg-light p-4 d-flex justify-content-end text-center" style="margin-top: 50px;"> 
+                <p style="margin: 10px 135px 20px 0 ;">Email: {{user.email}} </p>
                 <ul class="list-inline mb-0"> 
                     <li class="list-inline-item"> 
-                        <a href="{% url 'main:questions_page' user.id %}">
+                        <a href="{% url 'main:others_questions_page' user.id %}">
                             <h5 class="font-weight-bold mb-0 d-block">{{ questions_number }}</h5>
                             <small class="text-muted"> <i class="fas fa-user mr-1"></i>Questions</small> 
                         </a>
                     </li> 
                     <li class="list-inline-item"> 
-                        <a href="{% url 'main:answers_page' user.id %}">
+                        <a href="{% url 'main:others_answers_page' user.id %}">
                             <h5 class="font-weight-bold mb-0 d-block">{{answers_number}}</h5>
                             <small class="text-muted"> <i class="fas fa-user mr-1"></i>Answers</small> 
                         </a>

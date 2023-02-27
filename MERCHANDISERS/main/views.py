@@ -85,18 +85,18 @@ def my_answers(request : HttpRequest):
 
 
 
-def profile(request : HttpRequest, user_id):
+def others_profile(request : HttpRequest, user_id):
    ''' Display other user profile '''
 
    user = User.objects.get(id=user_id)
    questions_number = Question.objects.filter(user = user).count()
    answers_number = Answer.objects.filter(user = user).count()
 
-   return render(request, "main/profile.html",{"user" : user, "questions_number" : questions_number, "answers_number" : answers_number})
+   return render(request, "main/others_profile.html",{"user" : user, "questions_number" : questions_number, "answers_number" : answers_number})
 
 
 
-def questions(request : HttpRequest, user_id):
+def others_questions(request : HttpRequest, user_id):
    ''' Dispaly other users questions '''
 
    user = User.objects.get(id=user_id)
@@ -104,17 +104,17 @@ def questions(request : HttpRequest, user_id):
    questions_number = Question.objects.filter(user = user).count()
 
 
-   return render(request, "main/questions.html",{"questions" : questions, "questions_number" : questions_number, "user" : user})
+   return render(request, "main/others_questions.html",{"questions" : questions, "questions_number" : questions_number, "user" : user})
 
 
 
-def answers(request : HttpRequest, user_id):
+def others_answers(request : HttpRequest, user_id):
    ''' Display other users answers '''
    user = User.objects.get(id=user_id)
    answers = Answer.objects.filter(user = user)
    answers_number = Answer.objects.filter(user = user).count()
 
-   return render(request, "main/answers.html",{"answers" : answers, "answers_number" : answers_number, "user" : user})
+   return render(request, "main/others_answers.html",{"answers" : answers, "answers_number" : answers_number, "user" : user})
 
 
 
@@ -213,7 +213,7 @@ def downgrade_question(request : HttpRequest, question_id: int):
 
 
 
-def cancel_my_vote(request : HttpRequest, question_id: int):
+def cancel_question_vote(request : HttpRequest, question_id: int):
 
    question = Question.objects.get(id=question_id)
    my_vote  = QuestionScore.objects.filter(user=request.user, question=question).first()
@@ -225,7 +225,7 @@ def cancel_my_vote(request : HttpRequest, question_id: int):
 
 
 
-def upgrade_answer(request : HttpRequest, answer_id: int):
+def upgrade_answer(request : HttpRequest, question_id: int, answer_id: int):
    ''' give the question 1 point up '''
 
    answer = Answer.objects.get(id=answer_id)
@@ -240,4 +240,61 @@ def upgrade_answer(request : HttpRequest, answer_id: int):
       new_score.is_rated_up = True
       new_score.save()
 
-   return redirect("main:answers_details_page")
+   return redirect("main:answers_details_page2", question_id = question_id, answer_id = answer_id)
+
+
+
+
+def downgrade_answer(request : HttpRequest, question_id: int, answer_id: int):
+   ''' give the question 1 point up '''
+
+   answer = Answer.objects.get(id=answer_id)
+   answer_score  = AnswerScore.objects.filter(user=request.user, answer=answer).first()
+
+   if answer_score:
+      answer_score.is_rated_up = False
+      answer_score.is_rated_down = True
+      answer_score.save()
+   else:
+      new_score = AnswerScore(user = request.user, answer=answer)
+      new_score.is_rated_down = False
+      new_score.save()
+
+   return redirect("main:answers_details_page2", question_id = question_id, answer_id = answer_id)
+
+
+
+def cancel_answer_vote(request : HttpRequest, question_id: int, answer_id: int):
+
+   answer = Answer.objects.get(id=answer_id)
+   my_vote  = AnswerScore.objects.filter(user=request.user, answer=answer).first()
+   if my_vote:
+      my_vote.delete()
+   # my_vote = QuestionScore.objects.get( id = question_id)
+
+   return redirect("main:answers_details_page2", question_id = question_id, answer_id = answer_id )
+
+
+def answers_details_page2(request : HttpRequest, question_id, answer_id):
+   ''' Display question details and all it's answers '''
+
+   question = Question.objects.get(id=question_id)
+   question_score = QuestionScore.objects.filter(question=question, is_rated_up=True).count() - QuestionScore.objects.filter(question=question, is_rated_up=False).count()
+  
+   answer = Answer.objects.get(id=answer_id)
+   answer_score = AnswerScore.objects.filter(answer=answer, is_rated_up=True).count() - AnswerScore.objects.filter(answer=answer, is_rated_up=False).count()
+  
+
+   if request.method == "POST":
+      #to add a new entry
+      new_answer = Answer(user = request.user, question=question, answer = request.POST["answer"])
+      new_answer.save()
+      return redirect("main:answers_details_page", question_id = question_id)
+   
+   answers = Answer.objects.filter(question = question)
+   answers_number = Answer.objects.filter(question = question).count()
+
+   return render(request, "main/answers_details.html", {"question" : question, "answers" : answers, "answers_number" : answers_number, "question_score" : question_score, "answer_score" : answer_score})
+
+
+

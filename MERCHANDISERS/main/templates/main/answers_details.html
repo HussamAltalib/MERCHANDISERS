@@ -24,7 +24,7 @@
 
             <div class="container ms-3">    
                 <div class="row">
-                        <div class="col-1  pt-4">
+                        <div class="col-1 pt-4">
                             <!------------- Start Upgrade Question ---------------->
                             <a href="{% url 'main:upgrade_question' question.id %}" data-toggle="tooltip" title="This question is useful">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-caret-up" viewBox="0 0 16 16">
@@ -40,7 +40,7 @@
                                 </svg>
                             </a>
                             <!------------- End Downgrade Question ---------------->
-                            <a href="{% url 'main:cancel_my_vote' question.id %} " style="margin-left: 7px;" data-toggle="tooltip" title="cancel my vote">
+                            <a href="{% url 'main:cancel_question_vote' question.id %} " style="margin-left: 10px;" data-toggle="tooltip" title="cancel my vote">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
                                     <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
                                 </svg>
@@ -52,12 +52,12 @@
                                 <h2 class="post-title">{{ question.title}}</h2>
                                 <p style="font-size: small;" class="post-meta">
                                     Asked by
-                                    <a href="{% url 'main:profile_page'  question.user.id  %}"> 
+                                    <a href="{% url 'main:others_profile_page'  question.user.id  %}"> 
                                         <strong>{{ question.user.username}}</strong> 
                                     </a>
                                     on {{ question.asked_at}}
                                 </p>
-                                <hr style="width: 500px;" class="my-4" />
+                                <hr style="width: 83%; position: absolute;" class="my-4" />
                                 <h4> {{ question.details }}</h4>    
                             </div>
                         </div>    
@@ -75,22 +75,27 @@
                 <h4 class="mb-5"> {{ answers_number }} Answers</h4>
                 {% for answer in answers %}
                 <div class="row">
-                    <div class="col-1  pt-1">
+                    <div class="col-1 pt-1">
                         <!------------- Start Upgrade Answer ---------------->
-                        <a href="">
+                        <a href="{% url 'main:upgrade_answer' question.id answer.id %}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-up" viewBox="0 0 16 16">
                                 <path d="M3.204 11h9.592L8 5.519 3.204 11zm-.753-.659 4.796-5.48a1 1 0 0 1 1.506 0l4.796 5.48c.566.647.106 1.659-.753 1.659H3.204a1 1 0 0 1-.753-1.659z"/>
                             </svg>
                         </a>
                         <!------------- End Upgrade Answer ---------------->
-                        <h5>{{ answer_score }}</h5>
+                        <h5 style="margin-left: 15px; font-size: medium;">{{ answer_score }}</h5>
                         <!------------- Start Downgrade Answer ------------->
-                        <a href="">
+                        <a href="{% url 'main:downgrade_answer' question.id answer.id %}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-down" viewBox="0 0 16 16">
                                 <path d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z"/>
                             </svg>
                         </a>
                         <!------------- End Downgrade Answer ---------------->
+                        <a href="{% url 'main:cancel_answer_vote' question.id answer.id %} " style="margin-left: 3px;" data-toggle="tooltip" title="cancel my vote">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                            </svg>
+                        </a>
                     </div>
                     
                     <div class="col-11">
@@ -98,7 +103,7 @@
                             <p>{{ answer.answer }}</p>
                             <p style="font-size: small;" class="post-meta">
                                 Answered by
-                                <a href="{% url 'main:profile_page'  answer.user.id  %}">
+                                <a href="{% url 'main:others_profile_page'  answer.user.id  %}">
                                     <strong>{{ answer.user.username}}</strong>
                                 </a>
                                 on {{ answer.answered_at}}
@@ -133,36 +138,44 @@
         <!-- ######### Post Answer End ############ -->
         </div>
 
+<!-- ################# Navigation Sidbar Start ################## -->
+<div class="col-6 col-md-4" style="margin-top: 360px;">
+    <div class="position-sticky bg-light rounded" style="top: 2rem;">
+      <div class="p-4 mb-3">
+        <ul class="list-group  bg-transparent  list-group-flush " >
+          <a href="{% url 'main:index_page' %}">
+            <li class="list-group-item  bg-transparent border-0 ">
+              <svg style="margin-left: 30px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-globe-americas" viewBox="0 0 16 16">
+                <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0ZM2.04 4.326c.325 1.329 2.532 2.54 3.717 3.19.48.263.793.434.743.484-.08.08-.162.158-.242.234-.416.396-.787.749-.758 1.266.035.634.618.824 1.214 1.017.577.188 1.168.38 1.286.983.082.417-.075.988-.22 1.52-.215.782-.406 1.48.22 1.48 1.5-.5 3.798-3.186 4-5 .138-1.243-2-2-3.5-2.5-.478-.16-.755.081-.99.284-.172.15-.322.279-.51.216-.445-.148-2.5-2-1.5-2.5.78-.39.952-.171 1.227.182.078.099.163.208.273.318.609.304.662-.132.723-.633.039-.322.081-.671.277-.867.434-.434 1.265-.791 2.028-1.12.712-.306 1.365-.587 1.579-.88A7 7 0 1 1 2.04 4.327Z"/>
+              </svg>
+              Questions
+            </li>
+          </a>
+          <a href="{% url 'main:my_questions_page' %}">
+            <li class="list-group-item  bg-transparent border-0" style="margin-left: 22px;">
+              My Questions
+            </li>
+          </a>
+          <a href="{% url 'main:my_answers_page' %}">
+            <li class="list-group-item  bg-transparent border-0" style="margin-left: 22px;">
+              My Answers
+            </li>
+          </a>
+        </ul>
+      </div>
 
-        <!-- ######### Side Navigation Start ############ -->
+      <div class="p-4">
+        <h4 class="fst-italic">Elsewhere</h4>
+        <ol class="list-unstyled">
+          <li><a href="#">GitHub</a></li>
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">Facebook</a></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <!-- ################# Navigation Sidbar End ################## -->
 
-        <div class="col-6 col-md-4">
-        <div class="position-sticky" style="top: 2rem;">
-            <div class="p-4 mb-3 bg-light rounded">
-            <h4 class="fst-italic">About</h4>
-            <p class="mb-0">Customize this section to tell your visitors a little bit about your publication, writers, content, or something else entirely. Totally up to you.</p>
-            </div>
-
-            <div class="p-4">
-            <h4 class="fst-italic">Archives</h4>
-            <ol class="list-unstyled mb-0">
-                <li><a href="#">March 2021</a></li>
-                <li><a href="#">February 2021</a></li>
-            </ol>
-            </div>
-
-            <div class="p-4">
-            <h4 class="fst-italic">Elsewhere</h4>
-            <ol class="list-unstyled">
-                <li><a href="#">GitHub</a></li>
-                <li><a href="#">Twitter</a></li>
-                <li><a href="#">Facebook</a></li>
-            </ol>
-            </div>
-        </div>
-        </div>
-
-        <!-- ######### Side Navigation End ############ -->
     </div>
 </main>
 
