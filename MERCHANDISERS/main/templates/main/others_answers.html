@@ -18,7 +18,7 @@
                 {% for answer in answers %}
                 <div class="row">
                     <div class="post-preview col-11">
-                        <a href="{% url 'main:answers_details_page'  answer.id  %}">
+                        <a href="{% url 'main:answers_details_page'  answer.question.id  %}">
                             <h2 class="post-title">{{ answer.question.title}}</h2>
                         </a>
                         <p> {{ answer.answer }} </p>
