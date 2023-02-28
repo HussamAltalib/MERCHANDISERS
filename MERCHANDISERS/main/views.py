@@ -96,7 +96,11 @@ def edit_profile(request : HttpRequest, user_id):
 
         user_profile.user.save()
         user_profile.save()
-        return redirect("main:my_profile_page")
+
+        if request.user.is_staff :
+         return redirect("main:others_profile_page", user_id)
+        else :
+         return redirect("main:my_profile_page")
    
    return render(request, "main/edit_profile.html", {"user_profile" : user_profile})
 

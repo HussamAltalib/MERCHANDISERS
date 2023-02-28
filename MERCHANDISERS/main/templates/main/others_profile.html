@@ -18,6 +18,9 @@
                     </div> 
                 </div> 
             </div> 
+            {% if request.user.is_staff %}
+                <a href="{% url 'main:edit_profile_page' user.id%}" class="btn btn-outline-dark btn-sm btn-block" style="margin: 60px 0px 0px 25px; width: 130px;">Edit profile</a>
+            {%  endif %}
             <div class="bg-light p-4 d-flex justify-content-end text-center" style="margin-top: 50px;"> 
                 <p style="margin: 10px 135px 20px 0 ;">Email: {{user.email}} </p>
                 <ul class="list-inline mb-0"> 
