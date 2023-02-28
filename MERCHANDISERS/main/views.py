@@ -242,7 +242,7 @@ def edit_answer(request : HttpRequest, answer_id : int):
 
 
 
-def up_vote_question(request : HttpRequest, question_id: int):
+def upvote_question(request : HttpRequest, question_id: int):
    ''' give the question 1 point up '''
 
    question = Question.objects.get(id=question_id)
@@ -261,7 +261,7 @@ def up_vote_question(request : HttpRequest, question_id: int):
 
 
 
-def down_vote_question(request : HttpRequest, question_id: int):
+def downvote_question(request : HttpRequest, question_id: int):
    ''' take from the question 1 point  '''
 
    question = Question.objects.get(id=question_id)
@@ -292,7 +292,7 @@ def cancel_question_vote(request : HttpRequest, question_id: int):
 
 
 
-def up_vote_answer(request : HttpRequest, question_id: int, answer_id: int):
+def upvote_answer(request : HttpRequest, question_id: int, answer_id: int):
    ''' give the question 1 point up '''
 
    answer = Answer.objects.get(id=answer_id)
@@ -312,7 +312,7 @@ def up_vote_answer(request : HttpRequest, question_id: int, answer_id: int):
 
 
 
-def down_vote_answer(request : HttpRequest, question_id: int, answer_id: int):
+def downvote_answer(request : HttpRequest, question_id: int, answer_id: int):
    ''' give the question 1 point up '''
 
    answer = Answer.objects.get(id=answer_id)
@@ -348,8 +348,8 @@ def answers_details_page2(request : HttpRequest, question_id, answer_id):
    question = Question.objects.get(id=question_id)
    question_score = QuestionScore.objects.filter(question=question, is_rated_up=True).count() - QuestionScore.objects.filter(question=question, is_rated_up=False).count()
   
-   answer = Answer.objects.get(id=answer_id)
-   answer_score = AnswerScore.objects.filter(answer=answer, is_rated_up=True).count() - AnswerScore.objects.filter(answer=answer, is_rated_up=False).count()
+   voted_answer = Answer.objects.get(id=answer_id)
+   answer_score = AnswerScore.objects.filter(answer=voted_answer, is_rated_up=True).count() - AnswerScore.objects.filter(answer=voted_answer, is_rated_up=False).count()
   
 
    if request.method == "POST":
@@ -361,7 +361,7 @@ def answers_details_page2(request : HttpRequest, question_id, answer_id):
    answers = Answer.objects.filter(question = question)
    answers_number = Answer.objects.filter(question = question).count()
 
-   return render(request, "main/answers_details.html", {"question" : question, "answers" : answers, "answers_number" : answers_number, "question_score" : question_score, "answer_score" : answer_score})
+   return render(request, "main/answers_details.html", {"question" : question, "answers" : answers, "answers_number" : answers_number, "question_score" : question_score, "answer_score" : answer_score, "voted_answer" : voted_answer})
 
 
 

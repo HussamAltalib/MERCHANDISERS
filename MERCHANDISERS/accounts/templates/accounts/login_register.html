@@ -17,7 +17,7 @@
 			
 			<input name="username" type="text" class="input_Register" placeholder="Name" required />
 			<input name="email" type="email" class="input_Register" placeholder="Email" required/>
-			<input name="password" type="password" class="input_Register" placeholder="Password" required />
+			<input name="password" type="password" class="input_Register" placeholder="Password" pattern=".{8,12}"   required title="8 to 12 characters" required />
 			<div class="mb-3">
                 <label for="Details" class="form-label" >About You: </label>
 				<label style="font-size: small;"><< optional >></label>
@@ -37,7 +37,7 @@
 			<h1 class="h1_Register mb-5">Sign in</h1>
 			<input name="username" type="username" class="input_Register" placeholder="username" required />
 			<input name="password" type="password" class="input_Register" placeholder="Password" required />
-			<button class="button_Register" type='submit' name='submit' value='sign_in' style="margin-top: 45px;">Sign In</button>
+			<button class="button_Register" type='submit' name='submit' value='sign_in' style="margin-top: 65px;">Sign In</button>
 		</form>
 	</div>
 	<div class="overlay-container">
@@ -48,7 +48,7 @@
 				</div>
 				<h1 class="h1_Register">Welcome Back!</h1>
 				<p class="p_Register">To keep connected with us please login with your personal info</p>
-				<button class="ghost button_Register" id="signIn" style="margin-top: 15px;  " >Sign In</button>
+				<button class="ghost button_Register" id="signIn" style="margin-top: 105px;  " >Sign In</button>
 			</div>
 			<div class="overlay-panel overlay-right">
 				<div>

@@ -26,12 +26,12 @@ urlpatterns = [
        path("delete/answer/<answer_id>/", views.delete_answer, name="delete_answer"),
        path("edit/answer/<answer_id>/", views.edit_answer, name="edit_answer_page"),
 
-       path("up/vote/question/<question_id>/", views.up_vote_question, name="upgrade_question"),
-       path("down/vote/question/<question_id>/", views.down_vote_question, name="downgrade_question"),
+       path("up/vote/question/<question_id>/", views.upvote_question, name="upgrade_question"),
+       path("down/vote/question/<question_id>/", views.downvote_question, name="downgrade_question"),
        path("cancel/question/vote/<question_id>/", views.cancel_question_vote, name="cancel_question_vote"),
 
-       path("upgrade/answer/<question_id>/<answer_id>/", views.up_vote_answer, name="upgrade_answer"),
-       path("downgrade/answer/<question_id>/<answer_id>/", views.down_vote_answer, name="downgrade_answer"),
+       path("upgrade/answer/<question_id>/<answer_id>/", views.upvote_answer, name="upgrade_answer"),
+       path("downgrade/answer/<question_id>/<answer_id>/", views.downvote_answer, name="downgrade_answer"),
        path("cancel/answer/vote/<question_id>/<answer_id>/", views.cancel_answer_vote, name="cancel_answer_vote"),
 
 
