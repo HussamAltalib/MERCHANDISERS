@@ -19,8 +19,8 @@
     <header  class="p-3 mb-3 border-bottom">
         <div class="container">
           <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <a href="/"  class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-              <img style="height: 50px; width: 50px; border-radius: 50%;" src="{% static 'img/merchBlack.png' %}" alt="Logo">
+            <a href="{% url 'main:index_page' %}"  class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+              <img style="height: 60px; width: 60px; border-radius: 50%;" src="{% static 'img/MD-5.png' %}" alt="Logo">
             </a>
     
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
@@ -29,22 +29,24 @@
               <li><a href="#" class="nav-link px-2 link-dark">Contact</a></li>
               <li><a href="#" class="nav-link px-2 link-dark">Products</a></li>
             </ul>
-    
+            {% if request.user.is_staff %}
+              <h6>Admin</h6>
+            {% endif %}
             {% if request.user.is_authenticated %}
-            <div class="dropdown text-end">
-              <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="{{ request.user.profile.profile_image.url}}" alt="profile_image" width="50" height="50" class="rounded-circle">
-              </a>
-              <ul class="dropdown-menu text-small">
-                <li><a class="dropdown-item" href="{% url 'main:my_profile_page' %}"> Signed in as <br> <strong>{{ request.user.username }}</strong> </a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="{% url 'main:my_profile_page' %}">Profile</a></li>
-                <li><a class="dropdown-item" href="{% url 'main:my_questions_page' %}">My Questions</a></li>
-                <li><a class="dropdown-item" href="{% url 'main:my_answers_page' %}">My Answers</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="{% url 'accounts:logout_user' %}" >Sign out</a></li>
-              </ul>
-            </div>
+              <div class="dropdown text-end">
+                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                  <img src="{{ request.user.profile.profile_image.url}}" alt="profile_image" width="50" height="50" class="rounded-circle">
+                </a>
+                <ul class="dropdown-menu text-small">
+                  <li><a class="dropdown-item" href="{% url 'main:my_profile_page' %}"> Signed in as <br> <strong>{{ request.user.username }}</strong> </a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="{% url 'main:my_profile_page' %}">My Profile</a></li>
+                  <li><a class="dropdown-item" href="{% url 'main:my_questions_page' %}">My Questions</a></li>
+                  <li><a class="dropdown-item" href="{% url 'main:my_answers_page' %}">My Answers</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="{% url 'accounts:logout_user' %}" >Sign out</a></li>
+                </ul>
+              </div>
             {% else %}
               <a href="{% url 'accounts:login_register_user' %}" class="btn btn-outline-primary">Login</a>
             {% endif %}

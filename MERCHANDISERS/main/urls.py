@@ -4,11 +4,14 @@ from . import views
 app_name = "main"
 
 urlpatterns = [
-       path("", views.index, name="index_page"),
+       path("", views.intro_page, name="intro_page"),
+       path("home", views.index, name="index_page"),
+       
        path("ask/question/", views.ask_question_page, name="ask_question_page"),
        path("answers/details/<question_id>/", views.answers_details_page, name="answers_details_page"),
        path("answers/details/<question_id>/<answer_id>/", views.answers_details_page2, name="answers_details_page2"),
 
+       path("edit/profile/<user_id>/", views.edit_profile, name="edit_profile_page"),
        path("my/profile/", views.my_profile, name="my_profile_page"),
        path("my/questions/", views.my_questions, name="my_questions_page"),
        path("my/answers/", views.my_answers, name="my_answers_page"),
@@ -23,12 +26,12 @@ urlpatterns = [
        path("delete/answer/<answer_id>/", views.delete_answer, name="delete_answer"),
        path("edit/answer/<answer_id>/", views.edit_answer, name="edit_answer_page"),
 
-       path("upgrade/question/<question_id>/", views.upgrade_question, name="upgrade_question"),
-       path("downgrade/question/<question_id>/", views.downgrade_question, name="downgrade_question"),
+       path("up/vote/question/<question_id>/", views.up_vote_question, name="upgrade_question"),
+       path("down/vote/question/<question_id>/", views.down_vote_question, name="downgrade_question"),
        path("cancel/question/vote/<question_id>/", views.cancel_question_vote, name="cancel_question_vote"),
 
-       path("upgrade/answer/<question_id>/<answer_id>/", views.upgrade_answer, name="upgrade_answer"),
-       path("downgrade/answer/<question_id>/<answer_id>/", views.downgrade_answer, name="downgrade_answer"),
+       path("upgrade/answer/<question_id>/<answer_id>/", views.up_vote_answer, name="upgrade_answer"),
+       path("downgrade/answer/<question_id>/<answer_id>/", views.down_vote_answer, name="downgrade_answer"),
        path("cancel/answer/vote/<question_id>/<answer_id>/", views.cancel_answer_vote, name="cancel_answer_vote"),
 
 

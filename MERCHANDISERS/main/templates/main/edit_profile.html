@@ -1,0 +1,30 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}   New Account  {% endblock %}
+
+
+{% block content %}
+
+<div class="container_Register" id="container">
+	<form method="post" action="" enctype="multipart/form-data" > 
+        {% csrf_token %}
+        <div class="container" style="padding: 20px; ">
+            <input name="username" type="text" class="input_Register" value="{{ user_profile.user.username }}"  />
+			<input name="email" type="email" class="input_Register" value="{{ user_profile.user.email }}"/>
+			<div class="mb-3">
+                <label for="Details" class="form-label" >About You: </label>
+				<label style="font-size: small;"><< optional >></label>
+                <textarea name="about" class="form-control"  style="height: 30px; width: 552px; display: inline;vertical-align: middle;" rows="3">{{ user_profile.about }}</textarea>
+            </div>
+			<div class="mt-1 mb-5">
+                <label >Profile Image: <label style="font-size: small;"><< optional >></label></label>
+                <input type="file" name="profile_image" class="form-control" style="display: inline;vertical-align: middle; width: 530px;"/>
+            </div>
+        </div>
+		<button class="button_Register ms-5" style="margin-top: 80px;" type='submit' name='submit' value='sign_up'>Save</button>
+		<button class="button_Register" type='submit' name='submit' value='sign_up'>Cancel</button>
+    </form>
+</div>
+
+{% endblock %}

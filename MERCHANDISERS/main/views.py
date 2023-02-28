@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse
 from .models import Question, Answer, QuestionScore, AnswerScore
 from django.contrib.auth.models import User
+from accounts.models import Profile
 
 
 # Create your views here.
@@ -12,14 +13,20 @@ def index(request : HttpRequest):
    questions = Question.objects.all()
 
    if 'search' in request.GET:
-      questions = Question.objects.filter(title__contains=request.GET["search"]) 
-
+      questions = Question.objects.filter(title__contains=request.GET["search"])
    return  render(request, "main/index.html",{"questions": questions})
+
+
+
+def intro_page(request : HttpRequest):
+   return render(request, "main/intro.html")
 
 
 
 def ask_question_page(request : HttpRequest):
    ''' Provide a form for user to Ask his question '''
+   if not request.user.is_authenticated:
+      return redirect("accounts:login_register_user")
 
    if request.method == "POST":
       #to add a new entry
@@ -72,6 +79,26 @@ def my_profile(request : HttpRequest):
    total_user_score = total_questios_score + total_answers_score
 
    return render(request, "main/my_profile.html",{"questions_number" : questions_number,"answers_number" : answers_number, "total_user_score" : total_user_score})
+
+
+
+def edit_profile(request : HttpRequest, user_id):
+
+   user = User.objects.get(id=user_id)
+   user_profile = Profile.objects.filter(user = user).first()
+
+   if request.method == "POST":
+        user_profile.user.username = request.POST["username"]
+        user_profile.user.email = request.POST["email"]
+        user_profile.about = request.POST["about"]
+        if "profile_image" in request.FILES:
+         user_profile.profile_image = request.FILES["profile_image"]
+
+        user_profile.user.save()
+        user_profile.save()
+        return redirect("main:my_profile_page")
+   
+   return render(request, "main/edit_profile.html", {"user_profile" : user_profile})
 
 
 
@@ -136,17 +163,23 @@ def others_answers(request : HttpRequest, user_id):
 def delete_question(request : HttpRequest, question_id):
     ''' User can delete his questions '''
 
-   #  if not request.user.is_staff:
-   #      return redirect("main:index_page")
+    if not request.user.is_authenticated:
+      return redirect("accounts:login_register_user")
 
     question = Question.objects.get(id=question_id)
     question.delete()
+    if request.user.is_staff:
+        return redirect("main:index_page")
     return redirect("main:my_questions_page")
 
 
 
 def edit_question(request : HttpRequest, question_id):
     ''' User can can edit his questions '''
+
+    if not request.user.is_authenticated:
+      return redirect("accounts:login_register_user")
+    
    #  if not request.user.is_staff:
    #      return redirect("main:index_page")
 
@@ -165,11 +198,13 @@ def edit_question(request : HttpRequest, question_id):
 def delete_answer(request : HttpRequest, answer_id):
     ''' User cane delete his answers '''
 
-   #  if not request.user.is_staff:
-   #      return redirect("main:index_page")
+    if not request.user.is_authenticated:
+      return redirect("accounts:login_register_user")
 
     answer = Answer.objects.get(id=answer_id)
     answer.delete()
+    if request.user.is_staff:
+        return redirect("main:index_page")
     return redirect("main:my_answers_page")
 
 
@@ -190,7 +225,7 @@ def edit_answer(request : HttpRequest, answer_id : int):
 
 
 
-def upgrade_question(request : HttpRequest, question_id: int):
+def up_vote_question(request : HttpRequest, question_id: int):
    ''' give the question 1 point up '''
 
    question = Question.objects.get(id=question_id)
@@ -209,7 +244,7 @@ def upgrade_question(request : HttpRequest, question_id: int):
 
 
 
-def downgrade_question(request : HttpRequest, question_id: int):
+def down_vote_question(request : HttpRequest, question_id: int):
    ''' take from the question 1 point  '''
 
    question = Question.objects.get(id=question_id)
@@ -240,7 +275,7 @@ def cancel_question_vote(request : HttpRequest, question_id: int):
 
 
 
-def upgrade_answer(request : HttpRequest, question_id: int, answer_id: int):
+def up_vote_answer(request : HttpRequest, question_id: int, answer_id: int):
    ''' give the question 1 point up '''
 
    answer = Answer.objects.get(id=answer_id)
@@ -260,7 +295,7 @@ def upgrade_answer(request : HttpRequest, question_id: int, answer_id: int):
 
 
 
-def downgrade_answer(request : HttpRequest, question_id: int, answer_id: int):
+def down_vote_answer(request : HttpRequest, question_id: int, answer_id: int):
    ''' give the question 1 point up '''
 
    answer = Answer.objects.get(id=answer_id)

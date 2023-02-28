@@ -13,13 +13,12 @@
                 <div class="media align-items-end profile-head"> 
                     <div class="profile mr-3">
                         <h3 style="position: absolute; margin:20px 0 0 160px; color: white;">{{ user.username }}</h3>
-                        <p style="position: absolute; margin:50px 0 0 170px; color: white; font-size: small;">Riyadh</p>
+                        <p style="position: absolute; margin:50px 0 0 170px; color: white; font-size: small;">Score: {{ total_user_score }} </p>
                         <img src="{{ request.user.profile.profile_image.url}}" style="height: 130px; width: 130px;" alt="{{user.username}} image"  class="rounded mb-2 img-thumbnail">  
-                        <p style="position: absolute; margin: -40px 0 0 150px;" >Score: {{ total_user_score }} </p>
                     </div> 
                 </div> 
             </div> 
-            <a href="#" class="btn btn-outline-dark btn-sm btn-block" style="margin: 60px 0px 0px 25px; width: 130px;">Edit profile</a>
+            <a href="{% url 'main:edit_profile_page' user.id%}" class="btn btn-outline-dark btn-sm btn-block" style="margin: 60px 0px 0px 25px; width: 130px;">Edit profile</a>
             <div class="bg-light p-4 d-flex justify-content-end text-center"> 
                 <p style="margin-right: 26%;">Email: {{user.email}} </p>
                 <ul class="list-inline mb-0"> 
@@ -40,9 +39,8 @@
             <div class="px-4 py-3"> 
                 <h5 class="mb-0">About</h5> 
                 <div class="p-4 rounded shadow-sm bg-light"> 
-                    <p class="font-italic mb-0">Web Developer</p> 
-                    <p class="font-italic mb-0">Lives in New York</p> 
-                    <p class="font-italic mb-0">Photographer</p> 
+                    <p class="font-italic mb-0">{{ user.profile.about }}</p> 
+                    
                 </div> 
             </div>     
         </div> 
