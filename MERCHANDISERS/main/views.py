@@ -20,8 +20,6 @@ def index(request : HttpRequest):
 
 def intro_page(request : HttpRequest):
    ''' introduction page when the website loading'''
-   if not request.user.is_staff:
-      return redirect("main:index_page")
    return render(request, "main/intro.html")
 
 
