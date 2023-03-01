@@ -19,6 +19,9 @@ def index(request : HttpRequest):
 
 
 def intro_page(request : HttpRequest):
+   ''' introduction page when the website loading'''
+   if not request.user.is_staff:
+      return redirect("main:index_page")
    return render(request, "main/intro.html")
 
 
@@ -61,6 +64,9 @@ def answers_details_page(request : HttpRequest, question_id):
 def my_profile(request : HttpRequest):
    ''' Diaplsy the user's profile '''
 
+   if not request.user.is_authenticated:
+      return redirect("main:index_page")
+
    questions_number = Question.objects.filter(user = request.user).count()
    answers_number = Answer.objects.filter(user = request.user).count()
 
@@ -83,6 +89,9 @@ def my_profile(request : HttpRequest):
 
 
 def edit_profile(request : HttpRequest, user_id):
+
+   if not request.user.is_authenticated:
+      return redirect("main:index_page")
 
    user = User.objects.get(id=user_id)
    user_profile = Profile.objects.filter(user = user).first()
@@ -109,6 +118,9 @@ def edit_profile(request : HttpRequest, user_id):
 def my_questions(request : HttpRequest):
    ''' Display all user's questions '''
 
+   if not request.user.is_authenticated:
+      return redirect("main:index_page")
+
    questions = Question.objects.filter(user = request.user)
    questions_number = Question.objects.filter(user = request.user).count()
    
@@ -123,6 +135,9 @@ def my_questions(request : HttpRequest):
 
 def my_answers(request : HttpRequest):
    ''' Display all user's questions '''
+
+   if not request.user.is_authenticated:
+      return redirect("main:index_page")
 
    answers = Answer.objects.filter(user = request.user)
    answers_number = Answer.objects.filter(user = request.user).count()
@@ -173,6 +188,7 @@ def others_questions(request : HttpRequest, user_id):
 
 def others_answers(request : HttpRequest, user_id):
    ''' Display other users answers '''
+
    user = User.objects.get(id=user_id)
    answers = Answer.objects.filter(user = user)
    answers_number = Answer.objects.filter(user = user).count()
@@ -185,7 +201,7 @@ def delete_question(request : HttpRequest, question_id):
     ''' User can delete his questions '''
 
     if not request.user.is_authenticated:
-      return redirect("accounts:login_register_user")
+      return redirect("main:index_page")
 
     question = Question.objects.get(id=question_id)
     question.delete()
@@ -199,10 +215,8 @@ def edit_question(request : HttpRequest, question_id):
     ''' User can can edit his questions '''
 
     if not request.user.is_authenticated:
-      return redirect("accounts:login_register_user")
-    
-   #  if not request.user.is_staff:
-   #      return redirect("main:index_page")
+      return redirect("main:index_page")
+
 
     question = Question.objects.get(id=question_id)
 
@@ -220,7 +234,7 @@ def delete_answer(request : HttpRequest, answer_id):
     ''' User cane delete his answers '''
 
     if not request.user.is_authenticated:
-      return redirect("accounts:login_register_user")
+      return redirect("main:index_page")
 
     answer = Answer.objects.get(id=answer_id)
     answer.delete()
@@ -232,8 +246,9 @@ def delete_answer(request : HttpRequest, answer_id):
 
 def edit_answer(request : HttpRequest, answer_id : int):
     ''' User can can edit his questions '''
-   #  if not request.user.is_staff:
-   #      return redirect("main:index_page")
+
+    if not request.user.is_authenticated:
+      return redirect("main:index_page")
 
     answer = Answer.objects.get(id=answer_id)
 
@@ -248,6 +263,9 @@ def edit_answer(request : HttpRequest, answer_id : int):
 
 def upvote_question(request : HttpRequest, question_id: int):
    ''' give the question 1 point up '''
+
+   if not request.user.is_authenticated:
+      return redirect("main:index_page")
 
    question = Question.objects.get(id=question_id)
    question_score  = QuestionScore.objects.filter(user=request.user, question=question).first()
@@ -268,6 +286,9 @@ def upvote_question(request : HttpRequest, question_id: int):
 def downvote_question(request : HttpRequest, question_id: int):
    ''' take from the question 1 point  '''
 
+   if not request.user.is_authenticated:
+      return redirect("main:index_page")
+
    question = Question.objects.get(id=question_id)
    question_score  = QuestionScore.objects.filter(user=request.user, question=question).first()
 
@@ -285,6 +306,10 @@ def downvote_question(request : HttpRequest, question_id: int):
 
 
 def cancel_question_vote(request : HttpRequest, question_id: int):
+   ''' cancel up or down vote for question '''
+
+   if not request.user.is_authenticated:
+      return redirect("main:index_page")
 
    question = Question.objects.get(id=question_id)
    my_vote  = QuestionScore.objects.filter(user=request.user, question=question).first()
@@ -298,6 +323,9 @@ def cancel_question_vote(request : HttpRequest, question_id: int):
 
 def upvote_answer(request : HttpRequest, question_id: int, answer_id: int):
    ''' give the question 1 point up '''
+
+   if not request.user.is_authenticated:
+      return redirect("main:index_page")
 
    answer = Answer.objects.get(id=answer_id)
    answer_score  = AnswerScore.objects.filter(user=request.user, answer=answer).first()
@@ -315,9 +343,11 @@ def upvote_answer(request : HttpRequest, question_id: int, answer_id: int):
 
 
 
-
 def downvote_answer(request : HttpRequest, question_id: int, answer_id: int):
    ''' give the question 1 point up '''
+
+   if not request.user.is_authenticated:
+      return redirect("main:index_page")
 
    answer = Answer.objects.get(id=answer_id)
    answer_score  = AnswerScore.objects.filter(user=request.user, answer=answer).first()
@@ -336,6 +366,10 @@ def downvote_answer(request : HttpRequest, question_id: int, answer_id: int):
 
 
 def cancel_answer_vote(request : HttpRequest, question_id: int, answer_id: int):
+   ''' cancel up or down vote for answer '''
+
+   if not request.user.is_authenticated:
+      return redirect("main:index_page")
 
    answer = Answer.objects.get(id=answer_id)
    my_vote  = AnswerScore.objects.filter(user=request.user, answer=answer).first()
@@ -348,6 +382,7 @@ def cancel_answer_vote(request : HttpRequest, question_id: int, answer_id: int):
 
 def answers_details_page2(request : HttpRequest, question_id, answer_id):
    ''' Display question details and all it's answers '''
+
 
    question = Question.objects.get(id=question_id)
    question_score = QuestionScore.objects.filter(question=question, is_rated_up=True).count() - QuestionScore.objects.filter(question=question, is_rated_up=False).count()

@@ -48,9 +48,6 @@ def login_register_user(request : HttpRequest):
 
 
 
-
-
-
 def logout_user(request : HttpRequest):
 
     logout(request)
