@@ -87,29 +87,35 @@ def my_profile(request : HttpRequest):
 
 
 def edit_profile(request : HttpRequest, user_id):
+   edit_msg = None
 
    if not request.user.is_authenticated:
       return redirect("main:index_page")
 
    user = User.objects.get(id=user_id)
    user_profile = Profile.objects.filter(user = user).first()
-
    if request.method == "POST":
-        user_profile.user.username = request.POST["username"]
-        user_profile.user.email = request.POST["email"]
-        user_profile.about = request.POST["about"]
-        if "profile_image" in request.FILES:
-         user_profile.profile_image = request.FILES["profile_image"]
+      try :
+         user_profile.user.username = request.POST["username"]
+         user_profile.user.email = request.POST["email"]
+         user_profile.about = request.POST["about"]
+         if "profile_image" in request.FILES:
+            user_profile.profile_image = request.FILES["profile_image"]
 
-        user_profile.user.save()
-        user_profile.save()
+         user_profile.user.save()
+         user_profile.save()
 
-        if request.user.is_staff :
-         return redirect("main:others_profile_page", user_id)
-        else :
-         return redirect("main:my_profile_page")
+         if request.user.is_staff :
+            return redirect("main:others_profile_page", user_id)
+         else :
+            return redirect("main:my_profile_page")
+      except : 
+         edit_msg = "Username taken, Please use another one"
+
    
-   return render(request, "main/edit_profile.html", {"user_profile" : user_profile})
+   
+   
+   return render(request, "main/edit_profile.html", {"user_profile" : user_profile, "edit_msg" : edit_msg})
 
 
 

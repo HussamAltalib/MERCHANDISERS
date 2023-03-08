@@ -26,5 +26,8 @@
 		<button class="button_Register" type='submit' name='submit' value='sign_up'>Cancel</button>
     </form>
 </div>
+{% if edit_msg %}
+	<h6 class="text-danger" style="margin-left: 600px; margin-top: -50px;">{{edit_msg}}</h6>
+{% endif %}
 
 {% endblock %}
